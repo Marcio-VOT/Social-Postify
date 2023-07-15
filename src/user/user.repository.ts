@@ -18,7 +18,14 @@ export class UsersRepository {
     });
   }
 
-  async findAllUsers() {
-    return await this.prisma.users.findMany({});
+  // async findAllUsers() {
+  //   return await this.prisma.users.findMany({});
+  // }
+  async findUserFromEmail(email: string) {
+    return await this.prisma.users.findUnique({
+      where: {
+        email,
+      },
+    });
   }
 }
