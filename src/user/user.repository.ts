@@ -7,12 +7,13 @@ import { CreateUserDTO } from './dto/create-user.dto';
 export class UsersRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async addUser({ email, name, password }: CreateUserDTO) {
+  async addUser({ email, name, password, avatar }: CreateUserDTO) {
     return await this.prisma.users.create({
       data: {
         email,
         name,
         password,
+        avatar,
       },
     });
   }
