@@ -1,12 +1,13 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { SigninService } from './signin.service';
+import { SignInDTO } from './dto/signin.dto';
 
-@Controller('signin')
+@Controller('signin/internal')
 export class SigninController {
   constructor(private readonly signinService: SigninService) {}
 
   @Post()
-  signin(): void {
-    this.signinService.signin();
+  signin(@Body() body: SignInDTO) {
+    this.signinService.signin(body);
   }
 }

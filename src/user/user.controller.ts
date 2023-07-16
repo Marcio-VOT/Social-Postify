@@ -3,12 +3,12 @@ import { UserService } from './user.service';
 // import { Users } from '@prisma/client';
 import { CreateUserDTO } from './dto/create-user.dto';
 
-@Controller('user')
+@Controller('user/internal')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async createUser(@Body() body: CreateUserDTO) {
+  async addUser(@Body() body: CreateUserDTO) {
     return await this.userService.addUser(body);
   }
 }

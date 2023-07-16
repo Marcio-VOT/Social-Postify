@@ -9,9 +9,9 @@ export class UserService {
     const user = await this.userRepository.findUserFromEmail(body.email);
     if (user) throw new ConflictException('Email or Password Invalid');
     const hashPassword = bcrypt.hashSync(body.password, 10);
-    return this.userRepository.addUser({ ...body, password: hashPassword });
-  }
-  createUser() {
-    throw new Error('Method not implemented.');
+    return await this.userRepository.addUser({
+      ...body,
+      password: hashPassword,
+    });
   }
 }

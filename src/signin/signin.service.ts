@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { SignInDTO } from './dto/signin.dto';
 
 @Injectable()
 export class SigninService {
-  signin() {
-    throw new Error('Method not implemented.');
+  signin(body: SignInDTO) {
+    return body;
   }
 }
