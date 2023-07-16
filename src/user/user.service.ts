@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UsersRepository } from './user.repository';
 import * as bcrypt from 'bcrypt';
@@ -13,5 +17,15 @@ export class UserService {
       ...body,
       password: hashPassword,
     });
+  }
+  async findUserByEmail(email: string) {
+    const user = await this.userRepository.findUserFromEmail(email);
+    if (!user) throw new NotFoundException('User Not Found');
+    return user;
+  }
+  async findUserById(id: number) {
+    const user = await this.userRepository.findUserFromId(id);
+    if (!user) throw new NotFoundException('User Not Found');
+    return user;
   }
 }

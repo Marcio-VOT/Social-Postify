@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthSigninDTO } from './dto/auth-signin.dto';
 import { AuthSignupDTO } from './dto/auth-signup.dto';
 import { UserService } from 'src/user/user.service';
@@ -9,6 +13,8 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
+  private AUDIENCE = 'users';
+  private ISSUER = 'Social Postfy';
   constructor(
     private readonly userService: UserService,
     private readonly userRepository: UsersRepository,
@@ -38,10 +44,20 @@ export class AuthService {
       {
         expiresIn: '7 days',
         subject: String(id),
-        issuer: 'Social Postfy',
-        audience: 'users',
+        issuer: this.ISSUER,
+        audience: this.AUDIENCE,
       },
     );
     return { token };
+  }
+  checkToken(token: string) {
+    try {
+      return this.jwtService.verify(token, {
+        issuer: this.ISSUER,
+        audience: this.AUDIENCE,
+      });
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }
